@@ -1,6 +1,8 @@
 package twelve
 
-import "bytes"
+import (
+	"strings"
+)
 
 const numOfVerses = 12
 
@@ -37,7 +39,7 @@ func Verse(i int) string {
 		13: "On the ",
 		14: " day of Christmas my true love gave to me: ",
 	}
-	var in, out bytes.Buffer
+	var in, out strings.Builder
 	out.WriteString(n[13] + n[i] + n[14])
 	for y := i; y > 0; y-- {
 		if i != 1 && y == 1 {
@@ -50,7 +52,7 @@ func Verse(i int) string {
 }
 
 func Song() string {
-	var out bytes.Buffer
+	var out strings.Builder
 	for x := 1; x <= numOfVerses; x++ {
 		out.WriteString(Verse(x))
 		if x != numOfVerses {
