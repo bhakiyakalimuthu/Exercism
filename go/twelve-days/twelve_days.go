@@ -2,43 +2,26 @@ package twelve
 
 import "bytes"
 
-type letterList []string
+const numOfVerses = 12
 
 func Verse(i int) string {
 
-	//On the first day of Christmas my true love gave to me: a Partridge in a Pear Tree.
-	//
-	//	On the second day of Christmas my true love gave to me: two Turtle Doves, and a Partridge in a Pear Tree.
-
-	//On the twelfth day of Christmas my true love gave to me:
-	//twelve Drummers Drumming,
-	//eleven Pipers Piping,
-	//ten Lords-a-Leaping,
-	//nine Ladies Dancing,
-	//eight Maids-a-Milking,
-	//seven Swans-a-Swimming,
-	//six Geese-a-Laying,
-	//five Gold Rings,
-	//four Calling Birds,
-	//three French Hens,
-	//two Turtle Doves, and a Partridge in a Pear Tree.
-
 	m := map[string]string{
-		"first":    "a Partridge in a Pear Tree",
-		"second":   "two Turtle Doves,",
-		"third":    "three French Hens,",
-		"fourth":   "four Calling Birds,",
-		"fifth":    "five Gold Rings,",
-		"sixth":    "six Geese-a-Laying,",
-		"seventh":  "seven Swans-a-Swimming,",
-		"eighth":   "eight Maids-a-Milking,",
-		"ninth":    "nine Ladies Dancing,",
-		"tenth":    "ten Lords-a-Leaping,",
-		"eleventh": "eleven Pipers Piping,",
-		"twelfth":  "twelve Drummers Drumming,",
+		"first":    "a Partridge in a Pear Tree.",
+		"second":   "two Turtle Doves, ",
+		"third":    "three French Hens, ",
+		"fourth":   "four Calling Birds, ",
+		"fifth":    "five Gold Rings, ",
+		"sixth":    "six Geese-a-Laying, ",
+		"seventh":  "seven Swans-a-Swimming, ",
+		"eighth":   "eight Maids-a-Milking, ",
+		"ninth":    "nine Ladies Dancing, ",
+		"tenth":    "ten Lords-a-Leaping, ",
+		"eleventh": "eleven Pipers Piping, ",
+		"twelfth":  "twelve Drummers Drumming, ",
 	}
 
-	var NumberToWord = map[int]string{
+	var n = map[int]string{
 		1:  "first",
 		2:  "second",
 		3:  "third",
@@ -54,33 +37,25 @@ func Verse(i int) string {
 		13: "On the ",
 		14: " day of Christmas my true love gave to me: ",
 	}
-	var out bytes.Buffer
-	out.WriteString(NumberToWord[13] + NumberToWord[i] + NumberToWord[14])
-	for x := 1; x <= i; x++ {
-		var in bytes.Buffer
-		for y := x; y > 0; y-- {
-			if x != 1 && y == 1 {
-				in.WriteString("and ")
-			}
-			in.WriteString(m[NumberToWord[y]])
+	var in, out bytes.Buffer
+	out.WriteString(n[13] + n[i] + n[14])
+	for y := i; y > 0; y-- {
+		if i != 1 && y == 1 {
+			in.WriteString("and ")
 		}
-
-		out.WriteString(in.String())
-		if i == 1 {
-			out.WriteString(".")
-		}
-		if x != i {
-			out.WriteString("\n")
-		}
-
+		in.WriteString(m[n[y]])
 	}
+	out.WriteString(in.String())
 	return out.String()
 }
 
 func Song() string {
 	var out bytes.Buffer
-	for x := 1; x <= 12; x++ {
+	for x := 1; x <= numOfVerses; x++ {
 		out.WriteString(Verse(x))
+		if x != numOfVerses {
+			out.WriteString("\n")
+		}
 	}
 	return out.String()
 }
