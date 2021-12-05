@@ -1,29 +1,40 @@
 package anagram
 
+import "strings"
+
 func Detect(subject string, candidates []string) []string {
 	out := make([]string, 0)
-	dict := make(map[int32]int)
-	for _, v := range subject {
-		if _, ok := dict[v]; !ok {
-			dict[v] = 1
-			continue
-		}
-		dict[v] += 1
-	}
-
 outer:
 	for _, v := range candidates {
 		in := make(map[int32]int)
-		for dk, dv := range dict {
-			in[dk] = dv
+		// create map to store each character as key and int value to be incremented
+		for _, val := range strings.ToLower(subject) {
+			if _, ok := in[val]; !ok {
+				in[val] = 1
+				continue
+			}
+			in[val] += 1
 		}
+		// validate if subject and candidate are equal length
 		if len(subject) != len(v) {
 			continue
 		}
-		for _, sv := range v {
+		// validate if subject and candidate are same
+		if strings.ToLower(subject) == strings.ToLower(v) {
+			continue
+		}
+
+		for _, sv := range strings.ToLower(v) {
+			// validate if character is already present in the map
 			if value, ok := in[sv]; ok {
+				// validate if the weight of character is less than zero
 				if value != 0 {
 					in[sv] -= 1
+					// if weight of the character is zero
+					if in[sv] == 0 {
+						// remove key and value
+						delete(in, sv)
+					}
 				} else {
 					continue
 				}
@@ -31,7 +42,10 @@ outer:
 				continue outer
 			}
 		}
-		out = append(out, v)
+		// validate if the map is not empty
+		if len(in) == 0 {
+			out = append(out, v)
+		}
 	}
 	return out
 }
